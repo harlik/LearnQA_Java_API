@@ -12,4 +12,20 @@ public class Assertions {
         int value = response.jsonPath().getInt(name);
         assertEquals(expectedValue, value, "JSON value isn't as expected.");
     }
+
+    public static void assertResponseText(Response response, String expectedText) {
+        assertEquals(
+                expectedText,
+                response.asString(),
+                "Response text isn't as expected."
+        );
+    }
+
+    public static void assertResponseCode(Response response, int expectedStatusCode) {
+        assertEquals(
+                expectedStatusCode,
+                response.getStatusCode(),
+                "Response status code isn't as expected."
+        );
+    }
 }
