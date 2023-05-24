@@ -1,11 +1,11 @@
 package tests;
 
+import lib.BaseTestCase;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.path.json.exception.JsonPathException;
 import io.restassured.response.Response;
-import lib.BaseTestCase;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,12 +32,7 @@ public class CreateUserTests extends BaseTestCase {
     void clear() {
         try {
             int userId = response.jsonPath().getInt("id");
-            Response loginResponse = logIn(registrationData.get("email"), registrationData.get("password"));
-            String authCookieName = "auth_sid";
-            String authHeaderName = "x-csrf-token";
-            String cookie = getCookie(loginResponse, authCookieName);
-            String header = getHeader(loginResponse, authHeaderName);
-            deleteUser(userId, header, cookie);
+            deleteUser(userId, logIn(registrationData.get("email"), registrationData.get("password")));
             System.out.println("Deleted user having id = " + userId);
         }
         catch (JsonPathException e) {

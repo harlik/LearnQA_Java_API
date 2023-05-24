@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Map;
-
 import static io.restassured.RestAssured.given;
 import static lib.Assertions.assertJsonByName;
+import static lib.api.CoreRequests.logIn;
 
 public class UserAuthTest extends BaseTestCase {
 
@@ -25,15 +24,7 @@ public class UserAuthTest extends BaseTestCase {
 
     @BeforeEach
     void loginUser() {
-        Map<String, String> authData = Map.of(
-                "email", "vinkotov@example.com",
-                "password", "1234"
-        );
-
-        Response responseGetAuth = given()
-                .body(authData)
-                .post("https://playground.learnqa.ru/api/user/login")
-                .andReturn();
+        Response responseGetAuth = logIn();
 
         cookie = getCookie(responseGetAuth, authCookieName);
         header = getHeader(responseGetAuth, authHeaderName);
