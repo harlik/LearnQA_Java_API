@@ -33,6 +33,22 @@ public class CoreRequests {
                 .andReturn();
     }
 
+    @Step("Send update user POST as authenticated user")
+    static public Response updateUser(int userId, Map<String, String> params, Response loginResponse) {
+        return getAuthedSpec(loginResponse)
+                .body(params)
+                .put("https://playground.learnqa.ru/api/user/" + userId)
+                .andReturn();
+    }
+
+    @Step("Send update user POST without authentication")
+    static public Response updateUser(int userId, Map<String, String> params) {
+        return given()
+                .body(params)
+                .put("https://playground.learnqa.ru/api/user/" + userId)
+                .andReturn();
+    }
+
     static private RequestSpecification getAuthedSpec(Response loginResponse) {
         return given()
                 .header(authHeaderName, loginResponse.getHeader(authHeaderName))

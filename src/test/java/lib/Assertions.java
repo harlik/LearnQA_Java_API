@@ -36,6 +36,15 @@ public class Assertions {
         );
     }
 
+    public static void assertErrorText(Response response, String expectedText) {
+        assertJsonHasField(response, "error");
+        assertEquals(
+                expectedText,
+                response.jsonPath().get("error"),
+                "Error text isn't as expected."
+        );
+    }
+
     public static void assertResponseCode(Response response, int expectedStatusCode) {
         assertEquals(
                 expectedStatusCode,
