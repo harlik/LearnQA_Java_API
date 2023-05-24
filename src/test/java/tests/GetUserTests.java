@@ -39,7 +39,6 @@ public class GetUserTests extends BaseTestCase {
     @Test
     @Description("Auth and get info about another (not the authorized one) user.")
     void GetAnotherUser() throws JSONException {
-        logIn();
         Response getUserResponse = getUser(createUserResponse.jsonPath().getInt(userIdFieldName),
                 logIn());
         JSONAssert.assertEquals("{ username:'" + createUserRegistrationData.get("username") + "'}",
@@ -47,9 +46,8 @@ public class GetUserTests extends BaseTestCase {
     }
 
     @Test
-    @Description("Auth and get info about another (not the authorized one) user.")
+    @Description("Get info about user.")
     void GetUserWithoutAuth() throws JSONException {
-        logIn();
         Response getUserResponse = getUser(createUserResponse.jsonPath().getInt(userIdFieldName));
         JSONAssert.assertEquals("{ username:'" + createUserRegistrationData.get("username") + "'}",
                 getUserResponse.asString(), true);
