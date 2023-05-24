@@ -1,14 +1,15 @@
 package tests;
 
+import io.qameta.allure.Story;
+import io.qameta.allure.Stories;
+import io.qameta.allure.Flaky;
+
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
 import lib.BaseTestCase;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.Map;
 
@@ -20,6 +21,8 @@ import static lib.api.CoreRequests.*;
 @Feature("Delete user")
 public class DeleteUserTests extends BaseTestCase {
     @Test
+    @Story("1234567")
+    @Flaky
     void deleteUndeletableUser() {
         Response loginResponse = logIn();
         Response deleteResponse = deleteUser(
@@ -49,6 +52,7 @@ public class DeleteUserTests extends BaseTestCase {
 
 
         @Test
+        @Tag("smoke")
         @Description("Auth and delete the authorized user.")
         void deleteTheUser() {
             Response loginResponse =
@@ -60,6 +64,7 @@ public class DeleteUserTests extends BaseTestCase {
             assertResponseCode(getUser(userId, loginResponse), 404);
             assertResponseCode(getUser(userId), 404);
         }
+
         @Nested
         class TestsRequiringUserDeletion {
             @AfterEach
@@ -70,6 +75,7 @@ public class DeleteUserTests extends BaseTestCase {
             }
 
             @Test
+            @Stories({@Story("6789"), @Story("34560")})
             @Description("Auth and delete another (not the authorized one) user.")
             void deleteAnotherUser() {
                 Response deleteUserResponse = deleteUser(userId, logIn());
